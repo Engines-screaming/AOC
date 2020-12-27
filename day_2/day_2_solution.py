@@ -11,6 +11,7 @@ In the above example, 2 passwords are valid. The middle password, cdefg, is not;
 How many passwords are valid according to their policies?
 '''
 
+
 class Solver:
 
     def __init__(self, input_path):
@@ -29,8 +30,9 @@ class Solver:
             temp_dict = {}  # to store parsed info
 
             # parse char count ranges
-            temp_dict['min_count'] = char_range[0]
-            temp_dict['max_count'] = char_range[-1]
+            temp_range = char_range.split('-')
+            temp_dict['min_count'] = int(temp_range[0])
+            temp_dict['max_count'] = int(temp_range[1])
 
             # parse char to track
             temp_dict['tracked_char'] = tracked_char[0]
@@ -40,8 +42,22 @@ class Solver:
 
             self.parsed_input.append(temp_dict)
 
+    def check_passwords(self, debug=False):
+        for input_dict in self.parsed_input:
+            char_count = input_dict['pw'].count(input_dict['tracked_char'])
+
+            if debug:
+                print(input_dict, char_count)
+
+            if char_count >= input_dict['min_count'] and char_count <= input_dict['max_count']:
+                self.valid_count += 1
+                
+                if debug:
+                    print("passed\n")
+            
 
 if __name__ == '__main__':
     s = Solver('passwords.txt')
     s.parse_strings()
-    print(s.parsed_input)
+    s.check_passwords(True)
+    print(f'Amount of valid passwords: {s.valid_count})
