@@ -45,5 +45,11 @@ class Solver:
 
 if __name__ == '__main__':
     s = Solver('expense_report.txt')
-    answer = s.solve_three()
-    print(answer)
+
+    # solve first problem
+    answer1 = s.solve_two()
+    print(f"First answer (first number, second number, multiplied num): {answer1}")
+
+    # solve second problem
+    answer2 = s.solve_three()
+    print(f"Second answer (first number, second number, third number, multiplied num): {answer2}")
