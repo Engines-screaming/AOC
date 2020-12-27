@@ -27,15 +27,23 @@ class Solver:
                 data = int(line)
                 self.data.append(data)
 
-    def solve(self):
+    def solve_two(self):
         for item in self.data:
             for index in range(len(self.data)):
                 temp = item + self.data[index]
                 if temp == 2020:
                     return (item, self.data[index], item*self.data[index])
 
+    def solve_three(self):
+        for item in self.data:
+            for index1 in range(len(self.data)):
+                for index2 in range(len(self.data)):
+                    temp = item + self.data[index1] + self.data[index2]
+                    if temp == 2020:
+                        return (item, self.data[index1], item*self.data[index2], item*self.data[index1]*self.data[index2])
+
 
 if __name__ == '__main__':
     s = Solver('expense_report.txt')
-    answer = s.solve()
+    answer = s.solve_three()
     print(answer)
