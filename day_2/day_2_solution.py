@@ -17,7 +17,6 @@ class Solver:
     def __init__(self, input_path):
         self.input_list = []
         self.parsed_input = []
-        self.valid_count = 0
 
         with open(input_path) as f:
             for line in f:
@@ -43,6 +42,8 @@ class Solver:
             self.parsed_input.append(temp_dict)
 
     def check_passwords_pt1(self, debug=False):
+        valid_count = 0
+
         for input_dict in self.parsed_input:
             char_count = input_dict['pw'].count(input_dict['tracked_char'])
 
@@ -50,12 +51,16 @@ class Solver:
                 print(input_dict, char_count)
 
             if char_count >= input_dict['min_count'] and char_count <= input_dict['max_count']:
-                self.valid_count += 1
+                valid_count += 1
 
                 if debug:
                     print("passed\n")
+        
+        return valid_count
     
     def check_passwords_pt2(self):
+        valid_count = 0
+
         for input_dict in self.parsed_input:
             # range args are actually position this time:
             pos1 = input_dict['min_count']
@@ -65,17 +70,18 @@ class Solver:
             cond2 = input_dict['pw'][pos2 - 1] == input_dict['tracked_char']
 
             if cond1 == True and cond2 == False:
-                self.valid_count += 1
+                valid_count += 1
             elif cond2 == True and cond1 == False:
-                self.valid_count += 1
+                valid_count += 1
+        
+        return valid_count
 
 
 if __name__ == '__main__':
     s = Solver('passwords.txt')
     s.parse_strings()
-    s.check_passwords_pt1()
-    print(f'Amount of valid passwords in pt1: {s.valid_count}')
+    valid_pws = s.check_passwords_pt1()
+    print(f'Amount of valid passwords in pt1: {valid_pws}')
 
-    s.valid_count = 0  # reset count for pt2
-    s.check_passwords_pt2()
-    print(f'Amount of valid passwords in pt2: {s.valid_count}')
+    valid_pws = s.check_passwords_pt2()
+    print(f'Amount of valid passwords in pt2: {valid_pws}')
